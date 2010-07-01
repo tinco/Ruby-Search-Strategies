@@ -10,6 +10,22 @@ class Graph
   def edges
     @vertices.collect(:edges).flatten.uniq
   end
+
+  def self.from_csv(csv)
+    vertices = {}
+    csv.each_line do |line|
+      break if line.empty? || line[0] == '#'
+      line = line.split(',').each {|l| l.strip!}
+      v1 = vertices[line[0]] ||= Vertex.new(line[0])
+      v2 = vertices[line[1]] ||= Vertex.new(line[1])
+      Edge.new(v1, v2)
+    end
+    Graph.new(vertices)
+  end
+
+  def to_csv
+    edges.collect(:to_csv).join('\n')
+  end
 end
 
 class Vertex
@@ -59,6 +75,10 @@ class Edge
 
   def weight
     @weight
+  end
+
+  def to_csv
+    "#{left.label}, #{right.label}, #{weight}, #{directed}"
   end
 end
 

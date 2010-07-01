@@ -11,7 +11,8 @@ class Graph
       solution = fringe.detect {|vertex| problem[vertex]}
       visited |= fringe
       return solution if solution
-      fringe = fringe.collect(:neighbours).flatten - visited
+      fringe = fringe.collect(&:neighbours).flatten - visited
     end
+    false
   end
 end
