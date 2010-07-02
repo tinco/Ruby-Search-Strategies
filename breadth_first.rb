@@ -8,9 +8,11 @@ class Graph
     fringe = [root]
     visited = []
     until fringe.empty?
-      solution = fringe.detect {|vertex| problem[vertex]}
+      fringe.each do |vertex|
+        solution = problem[vertex]
+        return solution if solution
+      end
       visited |= fringe
-      return solution if solution
       fringe = fringe.collect(&:neighbours).flatten - visited
     end
     false
